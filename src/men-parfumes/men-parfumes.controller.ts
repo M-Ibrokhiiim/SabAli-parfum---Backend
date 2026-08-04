@@ -9,4 +9,5 @@ export class MenParfumesController {
   findAll() {
     return this.menParfumesService.findAll();
   }
+
 }
