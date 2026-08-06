@@ -1,19 +1,22 @@
-import { Controller, Post, Body, Patch, Param, Delete, Get, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Delete, Get, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AdminActionsService, UploadedFileDto } from './admin-actions.service';
-import { CreateProductDto } from './dto/create-admin-action.dto';
+import { CreateProductDto, LoginDto } from './dto/create-admin-action.dto';
 import { UpdateProductDto } from './dto/update-admin-action.dto';
+import { AdminActionsGuard } from './guards/admin-actions.guard';
 
+
+
+@UseGuards(AdminActionsGuard)
 @Controller('admin-actions')
 export class AdminActionsController {
   constructor(private readonly adminActionsService: AdminActionsService) {}
 
   // 1. Login
-  // @Post('login')
-  // @HttpCode(HttpStatus.OK)
-  // login(@Body() loginDto: LoginDto) {
-  //   return this.adminActionsService.login(loginDto);
-  // }
+  @Post('login')
+  login(@Body() loginDto: LoginDto) {
+    return this.adminActionsService.login(loginDto);
+  }
 
 
   // 2. All products

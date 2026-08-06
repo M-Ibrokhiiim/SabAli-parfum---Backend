@@ -119,7 +119,7 @@ let AdminActionsService = class AdminActionsService {
         }
     }
     login(loginDto) {
-        if (loginDto.username === 'admin' && loginDto.password === 'admin123') {
+        if (loginDto.username === 'Muhammadali' && loginDto.password === '12345678') {
             return { success: true, message: 'Login successful' };
         }
         throw new common_1.UnauthorizedException('Invalid admin credentials');

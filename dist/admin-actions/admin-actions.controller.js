@@ -18,10 +18,14 @@ const platform_express_1 = require("@nestjs/platform-express");
 const admin_actions_service_1 = require("./admin-actions.service");
 const create_admin_action_dto_1 = require("./dto/create-admin-action.dto");
 const update_admin_action_dto_1 = require("./dto/update-admin-action.dto");
+const admin_actions_guard_1 = require("./guards/admin-actions.guard");
 let AdminActionsController = class AdminActionsController {
     adminActionsService;
     constructor(adminActionsService) {
         this.adminActionsService = adminActionsService;
+    }
+    login(loginDto) {
+        return this.adminActionsService.login(loginDto);
     }
     allProducts() {
         return 'All products are here!';
@@ -37,6 +41,13 @@ let AdminActionsController = class AdminActionsController {
     }
 };
 exports.AdminActionsController = AdminActionsController;
+__decorate([
+    (0, common_1.Post)('login'),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [create_admin_action_dto_1.LoginDto]),
+    __metadata("design:returntype", void 0)
+], AdminActionsController.prototype, "login", null);
 __decorate([
     (0, common_1.Get)('/all'),
     __metadata("design:type", Function),
@@ -74,6 +85,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AdminActionsController.prototype, "deleteProduct", null);
 exports.AdminActionsController = AdminActionsController = __decorate([
+    (0, common_1.UseGuards)(admin_actions_guard_1.AdminActionsGuard),
     (0, common_1.Controller)('admin-actions'),
     __metadata("design:paramtypes", [admin_actions_service_1.AdminActionsService])
 ], AdminActionsController);

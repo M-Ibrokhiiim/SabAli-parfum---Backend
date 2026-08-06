@@ -99,7 +99,7 @@ export class AdminActionsService {
   }
 
   login(loginDto: LoginDto) {
-    if (loginDto.username === 'admin' && loginDto.password === 'admin123') {
+    if (loginDto.username === 'Muhammadali' && loginDto.password === '12345678') {
       return { success: true, message: 'Login successful' };
     }
     throw new UnauthorizedException('Invalid admin credentials');
