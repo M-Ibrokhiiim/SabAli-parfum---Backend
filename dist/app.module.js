@@ -13,12 +13,13 @@ const app_service_1 = require("./app.service");
 const men_parfumes_module_1 = require("./men-parfumes/men-parfumes.module");
 const women_parfumes_module_1 = require("./women-parfumes/women-parfumes.module");
 const trend_parfumes_module_1 = require("./trend-parfumes/trend-parfumes.module");
+const admin_actions_module_1 = require("./admin-actions/admin-actions.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [men_parfumes_module_1.MenParfumesModule, women_parfumes_module_1.WomenParfumesModule, trend_parfumes_module_1.TrendParfumesModule],
+        imports: [men_parfumes_module_1.MenParfumesModule, women_parfumes_module_1.WomenParfumesModule, trend_parfumes_module_1.TrendParfumesModule, admin_actions_module_1.AdminActionsModule],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })

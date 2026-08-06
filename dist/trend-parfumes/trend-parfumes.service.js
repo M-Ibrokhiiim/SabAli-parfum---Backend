@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TrendParfumesService = void 0;
 const common_1 = require("@nestjs/common");
 let TrendParfumesService = class TrendParfumesService {
-    create(createTrendParfumeDto) {
+    create(_createTrendParfumeDto) {
         return 'This action adds a new trendParfume';
     }
     findAll() {

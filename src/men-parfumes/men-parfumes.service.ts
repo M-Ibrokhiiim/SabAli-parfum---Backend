@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMenParfumeDto } from './dto/create-men-parfume.dto';
-import { UpdateMenParfumeDto } from './dto/update-men-parfume.dto';
 
 @Injectable()
 export class MenParfumesService {
@@ -11,5 +10,4 @@ export class MenParfumesService {
   findAll() {
     return `There are all products!`;
   }
-
 }
