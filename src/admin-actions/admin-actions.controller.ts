@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Patch, Param, Delete, Get, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AdminActionsService, UploadedFileDto } from './admin-actions.service';
 import { CreateProductDto, LoginDto } from './dto/create-admin-action.dto';

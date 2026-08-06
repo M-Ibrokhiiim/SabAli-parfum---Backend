@@ -24,17 +24,18 @@
 ## API Endpoints Documentation
 
 ### 🔒 Admin Actions (`/admin-actions`)
-All administrative requests (except Get All Overview) require a token in the headers: `Authorization: Bearer SABALI`.
+All administrative requests require a token in the headers: `Authorization: Bearer SABALI`.
 
-* **`GET /admin-actions/all`**
-  * Returns a summary message indicating where all products can be found.
+* **`POST /admin-actions/login`**
+  * Authenticates admin credentials.
+  * **JSON Body:** `{ "username": "Muhammadali", "password": "..." }`
 * **`POST /admin-actions/product/new`**
   * Creates and uploads a new perfume product. Supports uploading an `image` file as `multipart/form-data`.
   * **Form Fields:** `category` ('mens' | 'womens'), `name`, `brand`, `price` (number), `description`, `image` (file), `starred` (boolean).
-* **`PATCH /admin-actions/products/:category/:id`**
+* **`PATCH /admin-actions/product/:category/:id`**
   * Updates an existing product's fields. Supports uploading a new `image` file as `multipart/form-data` (which automatically deletes the old file to save disk space).
   * **Parameters:** `category` ('mens' | 'womens'), `id` (product ID string).
-* **`DELETE /admin-actions/products/:category/:id`**
+* **`DELETE /admin-actions/product/:category/:id`**
   * Deletes an existing product and its corresponding image file in the `astorage` folder.
   * **Parameters:** `category` ('mens' | 'womens'), `id` (product ID string).
 
