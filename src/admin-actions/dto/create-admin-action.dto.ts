@@ -34,4 +34,6 @@ export class CreateProductDto {
   @IsNotEmpty()
   @IsString()
   category!: 'mens' | 'womens';
+
+  starred?: boolean;
 }

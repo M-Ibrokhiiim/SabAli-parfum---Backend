@@ -27,9 +27,6 @@ let AdminActionsController = class AdminActionsController {
     login(loginDto) {
         return this.adminActionsService.login(loginDto);
     }
-    allProducts() {
-        return 'All products are here!';
-    }
     uploadProduct(body, file) {
         return this.adminActionsService.uploadProduct(body, file);
     }
@@ -48,12 +45,6 @@ __decorate([
     __metadata("design:paramtypes", [create_admin_action_dto_1.LoginDto]),
     __metadata("design:returntype", void 0)
 ], AdminActionsController.prototype, "login", null);
-__decorate([
-    (0, common_1.Get)('/all'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], AdminActionsController.prototype, "allProducts", null);
 __decorate([
     (0, common_1.Post)('/product/new'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),

@@ -1,7 +1,7 @@
-import { GuardsGuard } from './admin-actions.guard';
+import { AdminActionsGuard } from './admin-actions.guard';
 
-describe('GuardsGuard', () => {
+describe('AdminActionsGuard', () => {
   it('should be defined', () => {
-    expect(new GuardsGuard()).toBeDefined();
+    expect(new AdminActionsGuard()).toBeDefined();
   });
 });

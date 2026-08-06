@@ -11,6 +11,7 @@ export interface Product {
   price: number;
   description: string;
   image: string;
+  starred: boolean;
 }
 
 export class UploadedFileDto {
@@ -106,10 +107,13 @@ export class AdminActionsService {
   }
 
   uploadProduct(createProductDto: CreateProductDto, file?: UploadedFileDto): Product {
-    const { category, name, brand, price, description, image } = createProductDto;
+    const { category, name, brand, price, description, image, starred } = createProductDto;
     const resolvedCategory = this.normalizeCategory(category);
 
     const parsedPrice = typeof price === 'string' ? Number(price) : price;
+    const parsedStarred = starred !== undefined
+      ? (typeof starred === 'string' ? starred === 'true' : !!starred)
+      : false;
 
     let savedImagePath = image || '';
     if (file) {
@@ -124,6 +128,7 @@ export class AdminActionsService {
       price: parsedPrice,
       description,
       image: savedImagePath,
+      starred: parsedStarred
     };
 
     db[resolvedCategory].push(newProduct);
@@ -148,6 +153,10 @@ export class AdminActionsService {
       ? (typeof updateProductDto.price === 'string' ? Number(updateProductDto.price) : updateProductDto.price)
       : undefined;
 
+    const parsedStarred = updateProductDto.starred !== undefined
+      ? (typeof updateProductDto.starred === 'string' ? updateProductDto.starred === 'true' : !!updateProductDto.starred)
+      : undefined;
+
     let savedImagePath = existingProduct.image;
     if (file) {
       if (existingProduct.image && existingProduct.image.startsWith('astorage/')) {
@@ -165,6 +174,7 @@ export class AdminActionsService {
       ...(parsedPrice !== undefined && { price: parsedPrice }),
       ...(updateProductDto.description !== undefined && { description: updateProductDto.description }),
       image: savedImagePath,
+      ...(parsedStarred !== undefined && { starred: parsedStarred }),
     };
 
     products[productIndex] = updatedProduct;

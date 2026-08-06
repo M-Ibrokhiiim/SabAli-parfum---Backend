@@ -33,6 +33,7 @@ class CreateProductDto {
     description;
     image;
     category;
+    starred;
 }
 exports.CreateProductDto = CreateProductDto;
 __decorate([

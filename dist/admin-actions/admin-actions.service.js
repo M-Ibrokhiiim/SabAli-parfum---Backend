@@ -125,9 +125,12 @@ let AdminActionsService = class AdminActionsService {
         throw new common_1.UnauthorizedException('Invalid admin credentials');
     }
     uploadProduct(createProductDto, file) {
-        const { category, name, brand, price, description, image } = createProductDto;
+        const { category, name, brand, price, description, image, starred } = createProductDto;
         const resolvedCategory = this.normalizeCategory(category);
         const parsedPrice = typeof price === 'string' ? Number(price) : price;
+        const parsedStarred = starred !== undefined
+            ? (typeof starred === 'string' ? starred === 'true' : !!starred)
+            : false;
         let savedImagePath = image || '';
         if (file) {
             savedImagePath = this.saveFile(file);
@@ -140,6 +143,7 @@ let AdminActionsService = class AdminActionsService {
             price: parsedPrice,
             description,
             image: savedImagePath,
+            starred: parsedStarred
         };
         db[resolvedCategory].push(newProduct);
         this.writeDb(db);
@@ -156,6 +160,9 @@ let AdminActionsService = class AdminActionsService {
         const existingProduct = products[productIndex];
         const parsedPrice = updateProductDto.price !== undefined
             ? (typeof updateProductDto.price === 'string' ? Number(updateProductDto.price) : updateProductDto.price)
+            : undefined;
+        const parsedStarred = updateProductDto.starred !== undefined
+            ? (typeof updateProductDto.starred === 'string' ? updateProductDto.starred === 'true' : !!updateProductDto.starred)
             : undefined;
         let savedImagePath = existingProduct.image;
         if (file) {
@@ -174,6 +181,7 @@ let AdminActionsService = class AdminActionsService {
             ...(parsedPrice !== undefined && { price: parsedPrice }),
             ...(updateProductDto.description !== undefined && { description: updateProductDto.description }),
             image: savedImagePath,
+            ...(parsedStarred !== undefined && { starred: parsedStarred }),
         };
         products[productIndex] = updatedProduct;
         this.writeDb(db);

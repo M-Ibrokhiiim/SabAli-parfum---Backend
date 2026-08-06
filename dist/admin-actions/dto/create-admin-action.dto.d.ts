@@ -9,4 +9,5 @@ export declare class CreateProductDto {
     description: string;
     image: string;
     category: 'mens' | 'womens';
+    starred?: boolean;
 }

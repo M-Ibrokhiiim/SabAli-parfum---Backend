@@ -12,20 +12,14 @@ import { AdminActionsGuard } from './guards/admin-actions.guard';
 export class AdminActionsController {
   constructor(private readonly adminActionsService: AdminActionsService) {}
 
-  // 1. Login
+  // Login
   @Post('login')
   login(@Body() loginDto: LoginDto) {
     return this.adminActionsService.login(loginDto);
   }
 
 
-  // 2. All products
-  @Get('/all')
-   allProducts () {
-    return 'All products are here!'
-   }
-
-  // 3. Product upload
+  // Product upload
   @Post('/product/new')
   @UseInterceptors(FileInterceptor('image'))
   uploadProduct(
@@ -35,7 +29,7 @@ export class AdminActionsController {
     return this.adminActionsService.uploadProduct(body, file);
   }
 
-  // 4. Product update
+  // Product update
   @Patch('/product/:category/:id')
   @UseInterceptors(FileInterceptor('image'))
   updateProduct(
@@ -47,7 +41,7 @@ export class AdminActionsController {
     return this.adminActionsService.updateProduct(category, id, updatableProduct, file);
   }
 
-  // 5. Product delete
+  // Product delete
   @Delete('product/:category/:id')
   deleteProduct(@Param('category') category: string, @Param('id') id: string) {
     return this.adminActionsService.deleteProduct(category, id);
