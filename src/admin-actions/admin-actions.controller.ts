@@ -33,7 +33,7 @@ export class AdminActionsController {
   }
 
   // 4. Product update
-  @Patch('/products/:category/:id')
+  @Patch('/product/:category/:id')
   @UseInterceptors(FileInterceptor('image'))
   updateProduct(
     @Param('category') category: string,
@@ -45,7 +45,7 @@ export class AdminActionsController {
   }
 
   // 5. Product delete
-  @Delete('products/:category/:id')
+  @Delete('product/:category/:id')
   deleteProduct(@Param('category') category: string, @Param('id') id: string) {
     return this.adminActionsService.deleteProduct(category, id);
   }

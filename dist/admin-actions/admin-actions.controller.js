@@ -54,7 +54,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AdminActionsController.prototype, "uploadProduct", null);
 __decorate([
-    (0, common_1.Patch)('/products/:category/:id'),
+    (0, common_1.Patch)('/product/:category/:id'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
     __param(0, (0, common_1.Param)('category')),
     __param(1, (0, common_1.Param)('id')),
@@ -66,7 +66,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AdminActionsController.prototype, "updateProduct", null);
 __decorate([
-    (0, common_1.Delete)('products/:category/:id'),
+    (0, common_1.Delete)('product/:category/:id'),
     __param(0, (0, common_1.Param)('category')),
     __param(1, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
