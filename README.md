@@ -21,6 +21,40 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
+## API Endpoints Documentation
+
+### 🔒 Admin Actions (`/admin-actions`)
+All administrative requests require a token in the headers: `Authorization: Bearer SABALI`.
+
+* **`POST /admin-actions/login`**
+  * Authenticates admin credentials.
+  * **JSON Body:** `{ "username": "Muhammadali", "password": "..." }`
+* **`POST /admin-actions/product/new`**
+  * Creates and uploads a new perfume product. Supports uploading an `image` file as `multipart/form-data`.
+  * **Form Fields:** `category` ('mens' | 'womens'), `name`, `brand`, `price` (number), `description`, `image` (file), `starred` (boolean).
+* **`PATCH /admin-actions/product/:category/:id`**
+  * Updates an existing product's fields. Supports uploading a new `image` file as `multipart/form-data` (which automatically deletes the old file to save disk space).
+  * **Parameters:** `category` ('mens' | 'womens'), `id` (product ID string).
+* **`DELETE /admin-actions/product/:category/:id`**
+  * Deletes an existing product and its corresponding image file in the `astorage` folder.
+  * **Parameters:** `category` ('mens' | 'womens'), `id` (product ID string).
+
+---
+
+### 🌐 Consumer Endpoints (`/parfumes`)
+Public endpoints for client-side catalog display. No authentication required.
+
+* **`GET /parfumes/men`**
+  * Returns all men's perfume products.
+* **`GET /parfumes/women`**
+  * Returns all women's perfume products.
+* **`GET /parfumes/trend/men`**
+  * Returns all men's perfume products where `starred` is set to `true`.
+* **`GET /parfumes/trend/women`**
+  * Returns all women's perfume products where `starred` is set to `true`.
+
+---
+
 ## Description
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
