@@ -7,8 +7,9 @@ export interface Product {
   name: string;
   brand: string;
   price: number;
+  capacity: string | number;
   description: string;
-  image: string;
+  image: string[];
   starred?: boolean;
 }
 

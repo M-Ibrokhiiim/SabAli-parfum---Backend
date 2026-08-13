@@ -9,8 +9,9 @@ export interface Product {
   name: string;
   brand: string;
   price: number;
+  capacity: string | number;
   description: string;
-  image: string;
+  image: string[];
   starred: boolean;
 }
 
@@ -106,19 +107,39 @@ export class AdminActionsService {
     throw new UnauthorizedException('Invalid admin credentials');
   }
 
-  uploadProduct(createProductDto: CreateProductDto, file?: UploadedFileDto): Product {
-    const { category, name, brand, price, description, image, starred } = createProductDto;
+  private isValidImageString(val: any): boolean {
+    return typeof val === 'string' && val.trim() !== '' && val !== '[object Object]' && val !== '[object File]';
+  }
+
+  uploadProduct(createProductDto: CreateProductDto, files?: UploadedFileDto[]): Product {
+    const { category, name, brand, price, capacity, description, image, starred } = createProductDto;
     const resolvedCategory = this.normalizeCategory(category);
 
     const parsedPrice = typeof price === 'string' ? Number(price) : price;
+    const parsedCapacity = typeof capacity === 'string'
+      ? (isNaN(Number(capacity)) ? capacity : Number(capacity))
+      : capacity;
     const parsedStarred = starred !== undefined
       ? (typeof starred === 'string' ? starred === 'true' : !!starred)
       : false;
 
-    let savedImagePath = image || '';
-    if (file) {
-      savedImagePath = this.saveFile(file);
+    let savedImages: string[] = [];
+    if (image) {
+      if (Array.isArray(image)) {
+        savedImages = image.filter((img) => this.isValidImageString(img));
+      } else if (this.isValidImageString(image)) {
+        savedImages = [image as string];
+      }
     }
+
+    if (files && files.length > 0) {
+      const filesToSave = files.slice(0, 3);
+      for (const file of filesToSave) {
+        savedImages.push(this.saveFile(file));
+      }
+    }
+
+    savedImages = savedImages.slice(0, 3);
 
     const db = this.readDb();
     const newProduct: Product = {
@@ -126,8 +147,9 @@ export class AdminActionsService {
       name,
       brand,
       price: parsedPrice,
+      capacity: parsedCapacity,
       description,
-      image: savedImagePath,
+      image: savedImages,
       starred: parsedStarred
     };
 
@@ -136,7 +158,7 @@ export class AdminActionsService {
     return newProduct;
   }
 
-  updateProduct(category: string, id: string, updateProductDto: UpdateProductDto, file?: UploadedFileDto): Product {
+  updateProduct(category: string, id: string, updateProductDto: UpdateProductDto, files?: UploadedFileDto[]): Product {
     const resolvedCategory = this.normalizeCategory(category);
 
     const db = this.readDb();
@@ -153,27 +175,54 @@ export class AdminActionsService {
       ? (typeof updateProductDto.price === 'string' ? Number(updateProductDto.price) : updateProductDto.price)
       : undefined;
 
+    const parsedCapacity = updateProductDto.capacity !== undefined
+      ? (typeof updateProductDto.capacity === 'string'
+        ? (isNaN(Number(updateProductDto.capacity)) ? updateProductDto.capacity : Number(updateProductDto.capacity))
+        : updateProductDto.capacity)
+      : undefined;
+
     const parsedStarred = updateProductDto.starred !== undefined
       ? (typeof updateProductDto.starred === 'string' ? updateProductDto.starred === 'true' : !!updateProductDto.starred)
       : undefined;
 
-    let savedImagePath = existingProduct.image;
-    if (file) {
-      if (existingProduct.image && existingProduct.image.startsWith('astorage/')) {
-        this.deleteFile(existingProduct.image);
+    let savedImages = Array.isArray(existingProduct.image) ? [...existingProduct.image] : [existingProduct.image];
+
+    if (files && files.length > 0) {
+      for (const img of savedImages) {
+        if (img && img.startsWith('astorage/')) {
+          this.deleteFile(img);
+        }
       }
-      savedImagePath = this.saveFile(file);
+      savedImages = [];
+      const filesToSave = files.slice(0, 3);
+      for (const file of filesToSave) {
+        savedImages.push(this.saveFile(file));
+      }
     } else if (updateProductDto.image !== undefined) {
-      savedImagePath = updateProductDto.image;
+      const newImagesRaw = Array.isArray(updateProductDto.image)
+        ? updateProductDto.image
+        : (updateProductDto.image ? [updateProductDto.image] : []);
+      
+      const newImages = newImagesRaw.filter((img) => this.isValidImageString(img));
+
+      for (const img of savedImages) {
+        if (img && img.startsWith('astorage/') && !newImages.includes(img)) {
+          this.deleteFile(img);
+        }
+      }
+      savedImages = newImages;
     }
+
+    savedImages = savedImages.slice(0, 3);
 
     const updatedProduct: Product = {
       ...existingProduct,
       ...(updateProductDto.name !== undefined && { name: updateProductDto.name }),
       ...(updateProductDto.brand !== undefined && { brand: updateProductDto.brand }),
       ...(parsedPrice !== undefined && { price: parsedPrice }),
+      ...(parsedCapacity !== undefined && { capacity: parsedCapacity }),
       ...(updateProductDto.description !== undefined && { description: updateProductDto.description }),
-      image: savedImagePath,
+      image: savedImages,
       ...(parsedStarred !== undefined && { starred: parsedStarred }),
     };
 
@@ -194,8 +243,12 @@ export class AdminActionsService {
     }
 
     const existingProduct = products[productIndex];
-    if (existingProduct.image && existingProduct.image.startsWith('astorage/')) {
-      this.deleteFile(existingProduct.image);
+    if (existingProduct.image && Array.isArray(existingProduct.image)) {
+      for (const img of existingProduct.image) {
+        if (img && img.startsWith('astorage/')) {
+          this.deleteFile(img);
+        }
+      }
     }
 
     products.splice(productIndex, 1);
