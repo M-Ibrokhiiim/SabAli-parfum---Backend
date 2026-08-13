@@ -9,6 +9,7 @@ export interface Product {
   name: string;
   brand: string;
   price: number;
+  capacity: number;
   description: string;
   image: string;
   starred: boolean;
@@ -107,10 +108,11 @@ export class AdminActionsService {
   }
 
   uploadProduct(createProductDto: CreateProductDto, file?: UploadedFileDto): Product {
-    const { category, name, brand, price, description, image, starred } = createProductDto;
+    const { category, name, brand, price, capacity, description, image, starred } = createProductDto;
     const resolvedCategory = this.normalizeCategory(category);
 
     const parsedPrice = typeof price === 'string' ? Number(price) : price;
+    const parsedCapacity = typeof capacity === 'string' ? Number(capacity) : capacity;
     const parsedStarred = starred !== undefined
       ? (typeof starred === 'string' ? starred === 'true' : !!starred)
       : false;
@@ -126,6 +128,7 @@ export class AdminActionsService {
       name,
       brand,
       price: parsedPrice,
+      capacity: parsedCapacity,
       description,
       image: savedImagePath,
       starred: parsedStarred
@@ -153,6 +156,10 @@ export class AdminActionsService {
       ? (typeof updateProductDto.price === 'string' ? Number(updateProductDto.price) : updateProductDto.price)
       : undefined;
 
+    const parsedCapacity = updateProductDto.capacity !== undefined
+      ? (typeof updateProductDto.capacity === 'string' ? Number(updateProductDto.capacity) : updateProductDto.capacity)
+      : undefined;
+
     const parsedStarred = updateProductDto.starred !== undefined
       ? (typeof updateProductDto.starred === 'string' ? updateProductDto.starred === 'true' : !!updateProductDto.starred)
       : undefined;
@@ -172,6 +179,7 @@ export class AdminActionsService {
       ...(updateProductDto.name !== undefined && { name: updateProductDto.name }),
       ...(updateProductDto.brand !== undefined && { brand: updateProductDto.brand }),
       ...(parsedPrice !== undefined && { price: parsedPrice }),
+      ...(parsedCapacity !== undefined && { capacity: parsedCapacity }),
       ...(updateProductDto.description !== undefined && { description: updateProductDto.description }),
       image: savedImagePath,
       ...(parsedStarred !== undefined && { starred: parsedStarred }),

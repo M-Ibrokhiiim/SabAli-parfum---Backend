@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from "class-validator";
+import { IsNotEmpty, IsNumber, IsString } from "class-validator";
 
 export class LoginDto {
   @IsNotEmpty()
@@ -11,6 +11,11 @@ export class LoginDto {
 }
 
 export class CreateProductDto {
+
+  @IsNotEmpty()
+  @IsString()
+  image!: string;
+
   @IsString()
   @IsNotEmpty()
   name!: string;
@@ -22,18 +27,18 @@ export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
   price!: number;
-
+  
   @IsNotEmpty()
-  @IsString()
-  description!: string;
-
-  @IsNotEmpty()
-  @IsString()
-  image!: string;
+  @IsNumber()
+  capacity!: number
 
   @IsNotEmpty()
   @IsString()
   category!: 'mens' | 'womens';
 
+  @IsNotEmpty()
+  @IsString()
+  description!: string;
+  
   starred?: boolean;
 }

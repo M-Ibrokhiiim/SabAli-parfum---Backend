@@ -41,7 +41,7 @@ async function bootstrap() {
     app.useStaticAssets(path.join(process.cwd(), 'astorage'), {
         prefix: '/astorage/',
     });
-    await app.listen(process.env.PORT ?? 3000);
+    await app.listen(process.env.PORT ?? 4000);
 }
 void bootstrap();
 //# sourceMappingURL=main.js.map

@@ -3,11 +3,12 @@ export declare class LoginDto {
     password: string;
 }
 export declare class CreateProductDto {
+    image: string;
     name: string;
     brand: string;
     price: number;
-    description: string;
-    image: string;
+    capacity: number;
     category: 'mens' | 'womens';
+    description: string;
     starred?: boolean;
 }

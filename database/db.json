@@ -1,4 +1,15 @@
 {
-  "mens": [],
+  "mens": [
+    {
+      "id": "m1786619483694",
+      "name": "SABALI",
+      "brand": "SABALI",
+      "price": 200000,
+      "capacity": 100,
+      "description": "Good",
+      "image": "astorage/1786619483693-488105272.jpeg",
+      "starred": false
+    }
+  ],
   "womens": []
 }
