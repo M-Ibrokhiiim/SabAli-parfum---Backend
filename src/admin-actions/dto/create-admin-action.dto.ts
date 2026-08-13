@@ -12,9 +12,7 @@ export class LoginDto {
 
 export class CreateProductDto {
 
-  @IsNotEmpty()
-  @IsString()
-  image!: string;
+  image?: string | string[];
 
   @IsString()
   @IsNotEmpty()
@@ -29,8 +27,7 @@ export class CreateProductDto {
   price!: number;
   
   @IsNotEmpty()
-  @IsNumber()
-  capacity!: number
+  capacity!: string | number;
 
   @IsNotEmpty()
   @IsString()

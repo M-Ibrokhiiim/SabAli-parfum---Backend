@@ -1,5 +1,5 @@
-import { Controller, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Controller, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, UseGuards } from '@nestjs/common';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { AdminActionsService, UploadedFileDto } from './admin-actions.service';
 import { CreateProductDto, LoginDto } from './dto/create-admin-action.dto';
 import { UpdateProductDto } from './dto/update-admin-action.dto';
@@ -21,24 +21,24 @@ export class AdminActionsController {
 
   // Product upload
   @Post('/product/new')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FilesInterceptor('image'))
   uploadProduct(
     @Body() body: CreateProductDto,
-    @UploadedFile() file?: UploadedFileDto,
+    @UploadedFiles() files?: UploadedFileDto[],
   ) {
-    return this.adminActionsService.uploadProduct(body, file);
+    return this.adminActionsService.uploadProduct(body, files);
   }
 
   // Product update
   @Patch('/product/:category/:id')
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FilesInterceptor('image'))
   updateProduct(
     @Param('category') category: string,
     @Param('id') id: string,
     @Body() updatableProduct: UpdateProductDto,
-    @UploadedFile() file?: UploadedFileDto,
+    @UploadedFiles() files?: UploadedFileDto[],
   ){
-    return this.adminActionsService.updateProduct(category, id, updatableProduct, file);
+    return this.adminActionsService.updateProduct(category, id, updatableProduct, files);
   }
 
   // Product delete

@@ -27,11 +27,11 @@ let AdminActionsController = class AdminActionsController {
     login(loginDto) {
         return this.adminActionsService.login(loginDto);
     }
-    uploadProduct(body, file) {
-        return this.adminActionsService.uploadProduct(body, file);
+    uploadProduct(body, files) {
+        return this.adminActionsService.uploadProduct(body, files);
     }
-    updateProduct(category, id, updatableProduct, file) {
-        return this.adminActionsService.updateProduct(category, id, updatableProduct, file);
+    updateProduct(category, id, updatableProduct, files) {
+        return this.adminActionsService.updateProduct(category, id, updatableProduct, files);
     }
     deleteProduct(category, id) {
         return this.adminActionsService.deleteProduct(category, id);
@@ -47,24 +47,22 @@ __decorate([
 ], AdminActionsController.prototype, "login", null);
 __decorate([
     (0, common_1.Post)('/product/new'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image')),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.UploadedFile)()),
+    __param(1, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_admin_action_dto_1.CreateProductDto,
-        admin_actions_service_1.UploadedFileDto]),
+    __metadata("design:paramtypes", [create_admin_action_dto_1.CreateProductDto, Array]),
     __metadata("design:returntype", void 0)
 ], AdminActionsController.prototype, "uploadProduct", null);
 __decorate([
     (0, common_1.Patch)('/product/:category/:id'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('image')),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image')),
     __param(0, (0, common_1.Param)('category')),
     __param(1, (0, common_1.Param)('id')),
     __param(2, (0, common_1.Body)()),
-    __param(3, (0, common_1.UploadedFile)()),
+    __param(3, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, update_admin_action_dto_1.UpdateProductDto,
-        admin_actions_service_1.UploadedFileDto]),
+    __metadata("design:paramtypes", [String, String, update_admin_action_dto_1.UpdateProductDto, Array]),
     __metadata("design:returntype", void 0)
 ], AdminActionsController.prototype, "updateProduct", null);
 __decorate([

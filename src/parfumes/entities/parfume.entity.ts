@@ -3,9 +3,9 @@ export class Parfume {
   name!: string;
   brand!: string;
   price!: number;
-  capacity!: number;
+  capacity!: string | number;
   description!: string;
-  image!: string;
+  image!: string[];
   starred?: boolean;
 }
 

@@ -30,14 +30,22 @@ All administrative requests require a token in the headers: `Authorization: Bear
   * Authenticates admin credentials.
   * **JSON Body:** `{ "username": "Muhammadali", "password": "..." }`
 * **`POST /admin-actions/product/new`**
-  * Creates and uploads a new perfume product. Supports uploading an `image` file as `multipart/form-data`.
-  * **Form Fields:** `category` ('mens' | 'womens'), `name`, `brand`, `price` (number), `description`, `image` (file), `starred` (boolean).
+  * Creates and uploads a new perfume product. Supports uploading up to 3 physical image files as `multipart/form-data` (under the name `image`).
+  * **Form Fields:**
+    - `category`: `'mens' | 'womens'` (required)
+    - `name`: `string` (required)
+    - `brand`: `string` (required)
+    - `price`: `number` (required)
+    - `capacity`: `string | number` (required, supports numeric values or text with units, e.g. `"100ml"`, `"50ml"`)
+    - `description`: `string` (required)
+    - `image`: Up to 3 physical file uploads under the `image` field name (supports sending more than 3 files; the server gracefully accepts all and processes only the first 3 files, storing them as an array of paths).
+    - `starred`: `boolean` (optional)
 * **`PATCH /admin-actions/product/:category/:id`**
-  * Updates an existing product's fields. Supports uploading a new `image` file as `multipart/form-data` (which automatically deletes the old file to save disk space).
-  * **Parameters:** `category` ('mens' | 'womens'), `id` (product ID string).
+  * Updates an existing product's fields. Supports uploading up to 3 physical image files as `multipart/form-data` (under the name `image`), which automatically deletes the previous images from disk to save space.
+  * **Parameters:** `category` (`'mens' | 'womens'`), `id` (product ID string).
 * **`DELETE /admin-actions/product/:category/:id`**
-  * Deletes an existing product and its corresponding image file in the `astorage` folder.
-  * **Parameters:** `category` ('mens' | 'womens'), `id` (product ID string).
+  * Deletes an existing product and all of its associated physical image files in the `astorage` folder.
+  * **Parameters:** `category` (`'mens' | 'womens'`), `id` (product ID string).
 
 ---
 

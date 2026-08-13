@@ -5,9 +5,9 @@ export interface Product {
     name: string;
     brand: string;
     price: number;
-    capacity: number;
+    capacity: string | number;
     description: string;
-    image: string;
+    image: string[];
     starred: boolean;
 }
 export declare class UploadedFileDto {
@@ -30,8 +30,8 @@ export declare class AdminActionsService {
         success: boolean;
         message: string;
     };
-    uploadProduct(createProductDto: CreateProductDto, file?: UploadedFileDto): Product;
-    updateProduct(category: string, id: string, updateProductDto: UpdateProductDto, file?: UploadedFileDto): Product;
+    uploadProduct(createProductDto: CreateProductDto, files?: UploadedFileDto[]): Product;
+    updateProduct(category: string, id: string, updateProductDto: UpdateProductDto, files?: UploadedFileDto[]): Product;
     deleteProduct(category: string, id: string): {
         success: boolean;
         message: string;
