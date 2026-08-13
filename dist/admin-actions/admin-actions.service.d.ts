@@ -30,6 +30,7 @@ export declare class AdminActionsService {
         success: boolean;
         message: string;
     };
+    private isValidImageString;
     uploadProduct(createProductDto: CreateProductDto, files?: UploadedFileDto[]): Product;
     updateProduct(category: string, id: string, updateProductDto: UpdateProductDto, files?: UploadedFileDto[]): Product;
     deleteProduct(category: string, id: string): {

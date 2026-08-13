@@ -1,5 +1,5 @@
 import { Controller, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFiles, UseGuards } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { AnyFilesInterceptor } from '@nestjs/platform-express';
 import { AdminActionsService, UploadedFileDto } from './admin-actions.service';
 import { CreateProductDto, LoginDto } from './dto/create-admin-action.dto';
 import { UpdateProductDto } from './dto/update-admin-action.dto';
@@ -21,7 +21,7 @@ export class AdminActionsController {
 
   // Product upload
   @Post('/product/new')
-  @UseInterceptors(FilesInterceptor('image'))
+  @UseInterceptors(AnyFilesInterceptor())
   uploadProduct(
     @Body() body: CreateProductDto,
     @UploadedFiles() files?: UploadedFileDto[],
@@ -31,7 +31,7 @@ export class AdminActionsController {
 
   // Product update
   @Patch('/product/:category/:id')
-  @UseInterceptors(FilesInterceptor('image'))
+  @UseInterceptors(AnyFilesInterceptor())
   updateProduct(
     @Param('category') category: string,
     @Param('id') id: string,

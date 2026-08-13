@@ -47,7 +47,7 @@ __decorate([
 ], AdminActionsController.prototype, "login", null);
 __decorate([
     (0, common_1.Post)('/product/new'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image')),
+    (0, common_1.UseInterceptors)((0, platform_express_1.AnyFilesInterceptor)()),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.UploadedFiles)()),
     __metadata("design:type", Function),
@@ -56,7 +56,7 @@ __decorate([
 ], AdminActionsController.prototype, "uploadProduct", null);
 __decorate([
     (0, common_1.Patch)('/product/:category/:id'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FilesInterceptor)('image')),
+    (0, common_1.UseInterceptors)((0, platform_express_1.AnyFilesInterceptor)()),
     __param(0, (0, common_1.Param)('category')),
     __param(1, (0, common_1.Param)('id')),
     __param(2, (0, common_1.Body)()),

@@ -124,6 +124,9 @@ let AdminActionsService = class AdminActionsService {
         }
         throw new common_1.UnauthorizedException('Invalid admin credentials');
     }
+    isValidImageString(val) {
+        return typeof val === 'string' && val.trim() !== '' && val !== '[object Object]' && val !== '[object File]';
+    }
     uploadProduct(createProductDto, files) {
         const { category, name, brand, price, capacity, description, image, starred } = createProductDto;
         const resolvedCategory = this.normalizeCategory(category);
@@ -137,9 +140,9 @@ let AdminActionsService = class AdminActionsService {
         let savedImages = [];
         if (image) {
             if (Array.isArray(image)) {
-                savedImages = [...image];
+                savedImages = image.filter((img) => this.isValidImageString(img));
             }
-            else {
+            else if (this.isValidImageString(image)) {
                 savedImages = [image];
             }
         }
@@ -199,9 +202,10 @@ let AdminActionsService = class AdminActionsService {
             }
         }
         else if (updateProductDto.image !== undefined) {
-            const newImages = Array.isArray(updateProductDto.image)
+            const newImagesRaw = Array.isArray(updateProductDto.image)
                 ? updateProductDto.image
                 : (updateProductDto.image ? [updateProductDto.image] : []);
+            const newImages = newImagesRaw.filter((img) => this.isValidImageString(img));
             for (const img of savedImages) {
                 if (img && img.startsWith('astorage/') && !newImages.includes(img)) {
                     this.deleteFile(img);
